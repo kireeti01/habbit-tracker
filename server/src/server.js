@@ -11,12 +11,16 @@ const { generalLimiter } = require('./middleware/rateLimiter');
 
 const app = express();
 
+// Trust proxy for Render/Cloud reverse proxies (needed for secure cookies & rate limiters)
+app.set('trust proxy', 1);
+
 // Security Headers
 app.use(helmet());
 
 // CORS configuration (whitelisting client origin with credentials)
 const allowedOrigins = [
   env.CLIENT_URL,
+  'https://habbit-tracker-six-ashy.vercel.app',
   'http://localhost:5173',
   'http://127.0.0.1:5173',
 ];
@@ -26,7 +30,11 @@ app.use(
     origin: (origin, callback) => {
       // allow requests with no origin (like mobile apps, curl, or Postman)
       if (!origin) return callback(null, true);
-      if (allowedOrigins.indexOf(origin) !== -1 || process.env.NODE_ENV === 'development') {
+      if (
+        allowedOrigins.indexOf(origin) !== -1 ||
+        origin.endsWith('.vercel.app') ||
+        process.env.NODE_ENV === 'development'
+      ) {
         return callback(null, true);
       }
       return callback(new Error(`CORS blocked for origin: ${origin}`));

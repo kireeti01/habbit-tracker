@@ -67,7 +67,8 @@ axiosClient.interceptors.response.use(
 
       try {
         // Request new access token using httpOnly cookie
-        const res = await axios.post('/api/v1/auth/refresh', {}, { withCredentials: true });
+        const baseURL = import.meta.env.VITE_API_BASE_URL || '/api/v1';
+        const res = await axios.post(`${baseURL}/auth/refresh`, {}, { withCredentials: true });
         const { accessToken, user } = res.data.data;
 
         useAuthStore.getState().setSession(user, accessToken);
