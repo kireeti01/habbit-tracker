@@ -2,11 +2,15 @@
 
 > **Production-grade MERN Stack Habit & Streak Tracker with Intelligent AI Coaching**
 
+[![Live Demo](https://img.shields.io/badge/Live%20Demo-habbit--tracker--six--ashy.vercel.app-06b6d4?style=for-the-badge&logo=vercel)](https://habbit-tracker-six-ashy.vercel.app)
+[![GitHub Repository](https://img.shields.io/badge/GitHub-kireeti01%2Fhabbit--tracker-a855f7?style=for-the-badge&logo=github)](https://github.com/kireeti01/habbit-tracker)
+
+🌐 **Live Application URL:** [https://habbit-tracker-six-ashy.vercel.app](https://habbit-tracker-six-ashy.vercel.app)
+
 StreakForge is a modern web application designed for habit formation, streak preservation, and personalized behavioral coaching. It pairs a timezone-aware streak engine with interactive GitHub-style heatmaps, Recharts analytics, and Google Gemini AI integration.
 
-![StreakForge Dashboard Preview](client/public/streakforge_preview.jpg)
-
 ---
+
 
 ## 🌟 Key Features
 
