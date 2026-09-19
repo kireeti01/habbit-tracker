@@ -12,6 +12,7 @@ import {
   Calendar,
   AlertTriangle,
   ChevronRight,
+  Sparkles,
 } from 'lucide-react';
 import { DAYS_OF_WEEK } from '../../utils/categoryColors';
 import { format } from 'date-fns';
@@ -46,40 +47,45 @@ export default function HabitCard({
 
   return (
     <div
-      className={`glass-card rounded-2xl border transition-all duration-300 relative overflow-hidden group hover:border-slate-700 ${
-        isCompletedToday ? 'border-emerald-500/30' : 'border-slate-800'
-      } ${habit.archived ? 'opacity-60 bg-slate-950/40' : ''}`}
+      className={`rounded-3xl border transition-all duration-300 relative overflow-hidden group shadow-xl backdrop-blur-xl ${
+        isCompletedToday
+          ? 'bg-[#0c1822]/90 border-emerald-500/40 shadow-[0_0_25px_rgba(16,185,129,0.15)] hover:border-emerald-400'
+          : 'bg-[#0c1322]/85 border-slate-800/90 hover:border-cyan-500/40 hover:shadow-[0_0_25px_rgba(6,182,212,0.15)] hover:-translate-y-1'
+      } ${habit.archived ? 'opacity-50 bg-slate-950/40' : ''}`}
     >
-      {/* Top accent line */}
+      {/* Top accent glowing line */}
       <div
         className="h-1.5 w-full transition-all duration-500"
-        style={{ backgroundColor: isCompletedToday ? '#10B981' : habit.color || '#6366F1' }}
+        style={{
+          backgroundColor: isCompletedToday ? '#10b981' : habit.color || '#06b6d4',
+          boxShadow: isCompletedToday ? '0 0 10px rgba(16,185,129,0.5)' : `0 0 10px ${habit.color || '#06b6d4'}40`,
+        }}
       />
 
-      <div className="p-5">
+      <div className="p-6">
         {/* Header row */}
-        <div className="flex items-start justify-between gap-3 mb-3">
-          <div className="flex items-center gap-3">
+        <div className="flex items-start justify-between gap-3 mb-4">
+          <div className="flex items-center gap-3.5">
             <div
-              className="w-10 h-10 rounded-xl flex items-center justify-center text-xl shadow-sm border border-white/5"
-              style={{ backgroundColor: `${habit.color || '#6366F1'}20` }}
+              className="w-12 h-12 rounded-2xl flex items-center justify-center text-2xl shadow-md border border-white/10 transition-transform group-hover:scale-105"
+              style={{ backgroundColor: `${habit.color || '#06b6d4'}25` }}
             >
               {habit.icon || '⚡'}
             </div>
             <div>
               <Link
                 to={`/habits/${habit._id}`}
-                className="font-bold text-base text-white hover:text-brand-400 transition-colors flex items-center gap-1 group-hover:translate-x-0.5"
+                className="font-extrabold text-base text-white hover:text-cyan-400 transition-colors flex items-center gap-1 group-hover:translate-x-0.5"
               >
                 <span>{habit.title}</span>
-                <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ChevronRight className="w-3.5 h-3.5 text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity" />
               </Link>
-              <div className="flex items-center gap-2 mt-0.5">
-                <span className="text-[11px] font-medium text-slate-400 capitalize px-2 py-0.5 rounded-full bg-slate-900 border border-slate-800">
+              <div className="flex items-center gap-2 mt-1">
+                <span className="text-[10px] font-bold text-slate-300 capitalize px-2 py-0.5 rounded-md bg-slate-900 border border-slate-800">
                   {habit.category}
                 </span>
                 {habit.targetTime && (
-                  <span className="text-[11px] text-slate-400 flex items-center gap-1">
+                  <span className="text-[11px] text-slate-400 flex items-center gap-1 font-medium">
                     <Clock className="w-3 h-3 text-slate-500" />
                     {habit.targetTime}
                   </span>
@@ -92,7 +98,7 @@ export default function HabitCard({
           <div className="relative">
             <button
               onClick={() => setMenuOpen(!menuOpen)}
-              className="p-1.5 text-slate-400 hover:text-white rounded-lg hover:bg-slate-800/80 transition-colors"
+              className="p-1.5 text-slate-400 hover:text-white rounded-xl hover:bg-slate-800/80 transition-colors"
             >
               <MoreVertical className="w-4 h-4" />
             </button>
@@ -100,31 +106,31 @@ export default function HabitCard({
             {menuOpen && (
               <>
                 <div className="fixed inset-0 z-20" onClick={() => setMenuOpen(false)} />
-                <div className="absolute right-0 top-8 z-30 w-44 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl py-1 text-xs">
+                <div className="absolute right-0 top-8 z-30 w-48 rounded-2xl bg-[#090e1c] border border-slate-700/80 shadow-2xl py-1.5 text-xs backdrop-blur-xl">
                   <button
                     onClick={() => {
                       setMenuOpen(false);
                       onEdit(habit);
                     }}
-                    className="w-full px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+                    className="w-full px-3.5 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
                   >
-                    <Edit2 className="w-3.5 h-3.5 text-brand-400" /> Edit Habit
+                    <Edit2 className="w-3.5 h-3.5 text-cyan-400" /> Edit Habit
                   </button>
                   <button
                     onClick={() => {
                       setMenuOpen(false);
                       onOpenBackfill(habit);
                     }}
-                    className="w-full px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+                    className="w-full px-3.5 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
                   >
-                    <Calendar className="w-3.5 h-3.5 text-indigo-400" /> Backfill Past Days
+                    <Calendar className="w-3.5 h-3.5 text-purple-400" /> Backfill Past Days
                   </button>
                   <button
                     onClick={() => {
                       setMenuOpen(false);
                       onArchive(habit._id);
                     }}
-                    className="w-full px-3 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
+                    className="w-full px-3.5 py-2 text-left text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-2"
                   >
                     {habit.archived ? (
                       <>
@@ -144,7 +150,7 @@ export default function HabitCard({
                         onDelete(habit._id);
                       }
                     }}
-                    className="w-full px-3 py-2 text-left text-red-400 hover:bg-red-500/10 flex items-center gap-2"
+                    className="w-full px-3.5 py-2 text-left text-red-400 hover:bg-red-500/15 flex items-center gap-2"
                   >
                     <Trash2 className="w-3.5 h-3.5" /> Delete Permanently
                   </button>
@@ -154,43 +160,43 @@ export default function HabitCard({
           </div>
         </div>
 
-        {/* Description (if any) */}
+        {/* Description */}
         {habit.description && (
-          <p className="text-xs text-slate-400 mb-4 line-clamp-2">{habit.description}</p>
+          <p className="text-xs text-slate-400 mb-4 line-clamp-2 leading-relaxed">{habit.description}</p>
         )}
 
         {/* Streak Stats & Schedule Grid */}
         <div className="flex items-center justify-between pt-3 border-t border-slate-800/80 mb-4">
           <div className="flex items-center gap-2">
             <div
-              className={`p-1.5 rounded-lg flex items-center gap-1 ${
+              className={`px-2.5 py-1 rounded-xl flex items-center gap-1.5 ${
                 habit.currentStreak > 0
-                  ? 'bg-orange-500/10 text-orange-400 border border-orange-500/20'
+                  ? 'bg-orange-500/10 text-orange-400 border border-orange-500/25 shadow-sm'
                   : 'bg-slate-900 text-slate-500 border border-slate-800'
               }`}
             >
-              <Flame className={`w-4 h-4 ${habit.currentStreak > 0 ? 'text-orange-500 fill-orange-500' : ''}`} />
-              <span className="font-extrabold text-xs">{habit.currentStreak || 0}</span>
-              <span className="text-[10px] font-medium opacity-80">streak</span>
+              <Flame className={`w-4 h-4 ${habit.currentStreak > 0 ? 'text-orange-400 fill-orange-400 animate-flame' : ''}`} />
+              <span className="font-black text-xs">{habit.currentStreak || 0}</span>
+              <span className="text-[10px] font-semibold opacity-80">streak</span>
             </div>
 
             {isAtRisk && (
               <span
                 title="Streak at risk! Complete today to maintain your momentum."
-                className="p-1.5 rounded-lg bg-amber-500/10 text-amber-400 border border-amber-500/20 flex items-center gap-1 text-[10px] font-bold animate-pulse"
+                className="px-2 py-1 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/25 flex items-center gap-1 text-[10px] font-bold animate-pulse"
               >
                 <AlertTriangle className="w-3 h-3" /> At Risk
               </span>
             )}
           </div>
 
-          <div className="text-[11px] text-slate-400">
-            Best: <span className="font-semibold text-slate-200">{habit.longestStreak || 0} days</span>
+          <div className="text-[11px] text-slate-400 font-medium">
+            Best: <span className="font-extrabold text-white">{habit.longestStreak || 0}d</span>
           </div>
         </div>
 
         {/* Schedule Day Pills */}
-        <div className="flex items-center justify-between mb-4 bg-slate-950/40 p-1.5 rounded-xl border border-slate-900">
+        <div className="flex items-center justify-between mb-4 bg-slate-950/60 p-2 rounded-2xl border border-slate-800/80">
           {DAYS_OF_WEEK.map((d) => {
             const isScheduled =
               habit.frequency?.type === 'daily' || (habit.frequency?.days || []).includes(d.id);
@@ -200,11 +206,11 @@ export default function HabitCard({
               <div
                 key={d.id}
                 title={`${d.label}: ${isScheduled ? 'Scheduled' : 'Off day'}`}
-                className={`w-6 h-6 rounded-lg text-[10px] font-bold flex items-center justify-center transition-all ${
+                className={`w-7 h-7 rounded-xl text-[10px] font-black flex items-center justify-center transition-all ${
                   isToday
-                    ? 'ring-1 ring-brand-400 bg-brand-500/20 text-brand-300'
+                    ? 'ring-1 ring-cyan-400 bg-cyan-500/20 text-cyan-300 shadow-[0_0_10px_rgba(6,182,212,0.3)]'
                     : isScheduled
-                    ? 'text-slate-300 bg-slate-800/60'
+                    ? 'text-slate-200 bg-slate-800/80'
                     : 'text-slate-600 bg-transparent'
                 }`}
               >
@@ -219,11 +225,11 @@ export default function HabitCard({
           type="button"
           disabled={checking || habit.archived}
           onClick={handleCheckClick}
-          className={`w-full py-2.5 px-4 rounded-xl text-xs font-bold transition-all duration-300 flex items-center justify-center gap-2 shadow-sm ${
+          className={`w-full py-3 px-4 rounded-2xl text-xs font-black transition-all duration-300 flex items-center justify-center gap-2 shadow-md ${
             isCompletedToday
-              ? 'bg-emerald-500 text-slate-950 hover:bg-emerald-400 shadow-emerald-500/20'
+              ? 'bg-gradient-to-r from-emerald-500 to-teal-400 text-slate-950 hover:brightness-110 shadow-[0_0_20px_rgba(16,185,129,0.3)]'
               : isScheduledToday
-              ? 'bg-slate-900 hover:bg-brand-600 text-slate-300 hover:text-white border border-slate-800 hover:border-brand-500'
+              ? 'bg-slate-900 hover:bg-gradient-to-r hover:from-purple-600 hover:to-indigo-600 text-slate-200 hover:text-white border border-slate-800 hover:border-cyan-400/50 hover:scale-[1.02] active:scale-[0.98]'
               : 'bg-slate-900/60 text-slate-400 hover:bg-slate-800 border border-slate-800/60'
           } disabled:opacity-40`}
         >
@@ -232,11 +238,11 @@ export default function HabitCard({
           ) : isCompletedToday ? (
             <>
               <Check className="w-4 h-4 stroke-[3]" />
-              <span>Completed Today</span>
+              <span>Completed Today 🔥</span>
             </>
           ) : isScheduledToday ? (
             <>
-              <div className="w-2 h-2 rounded-full bg-brand-400 animate-ping" />
+              <div className="w-2 h-2 rounded-full bg-cyan-400 animate-ping" />
               <span>Mark Today Complete</span>
             </>
           ) : (
@@ -247,3 +253,4 @@ export default function HabitCard({
     </div>
   );
 }
+
